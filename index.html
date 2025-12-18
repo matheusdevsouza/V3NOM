@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>V3NOM — Álbum colaborativo do cantor MC Lan</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Inter:wght@100;400;700;900&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
+    <style>
+        :root {
+            --bg: #ffffff;
+            --text: #000000;
+            --invert-logo: invert(1); 
+            --sub-text: rgba(0, 0, 0, 0.6);
+            --track-icon-filter: invert(0);
+            --glow-color: rgba(0, 0, 0, 1);
+        }
+
+        .dark-mode {
+            --bg: #000000;
+            --text: #ffffff;
+            --invert-logo: invert(0);
+            --sub-text: rgba(255, 255, 255, 0.5);
+            --track-icon-filter: invert(1) brightness(0.4);
+            --glow-color: rgba(255, 255, 255, 0.25);
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.8s cubic-bezier(0.23, 1, 0.32, 1), color 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+            overflow-x: hidden;
+        }
+
+        .gothic-font {
+            font-family: 'UnifrakturMaguntia', cursive;
+        }
+
+        .header-blur {
+            backdrop-filter: blur(10px);
+        }
+
+        .v3nom-logo-nav {
+            filter: var(--invert-logo);
+            width: 80px;
+            transition: all 0.5s ease;
+        }
+        .v3nom-logo-nav:hover {
+            transform: scale(1.1) rotate(-2deg);
+            opacity: 0.8;
+        }
+
+        .v3nom-logo-hero {
+            filter: var(--invert-logo);
+            transition: filter 0.8s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            max-width: 90vw;
+            width: 800px;
+        }
+        .v3nom-logo-hero:hover {
+            transform: scale(1.05) !important;
+        }
+
+        .nav-link {
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: var(--text);
+            opacity: 1 !important;
+        }
+
+        .footer-mask {
+            mask-image: linear-gradient(to top, transparent 0%, black 60%);
+            -webkit-mask-image: linear-gradient(to top, transparent 20%, black 60%);
+        }
+
+        .theme-toggle {
+            cursor: pointer;
+            padding: 8px 16px;
+            border: 1px solid rgba(136, 136, 136, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-radius: 20px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            background: transparent;
+            font-weight: 900;
+        }
+
+        .theme-toggle:hover {
+            background: var(--text);
+            color: var(--bg);
+            transform: scale(1.05);
+        }
+
+        .merch-card {
+            width: 100%;
+            aspect-ratio: 4/5;
+            position: relative;
+            overflow: hidden;
+            background: #111;
+            border-radius: 12px;
+        }
+
+        .merch-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%) contrast(120%) brightness(0.6);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .merch-card:hover .merch-image {
+            filter: grayscale(0%) contrast(100%) brightness(1);
+            transform: scale(1.05);
+        }
+
+        .about-image {
+            transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .about-image-container:hover .about-image {
+            transform: scale(1.1);
+        }
+
+        .track-item {
+            border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+            transition: border-bottom 0.4s ease, padding-left 0.4s ease; 
+            opacity: 0; 
+        }
+
+        .track-item:hover {
+            border-bottom: 1px solid var(--text);
+            padding-left: 1.5rem;
+        }
+
+        .track-icon-img {
+            filter: var(--track-icon-filter);
+        }
+
+        .contrast-text {
+            color: var(--sub-text);
+        }
+
+        ::-webkit-scrollbar { display: none; }
+
+        .glow-effect {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            filter: blur(80px);
+            opacity: 0.12;
+            animation: glowPulse 8s ease-in-out infinite;
+            background: radial-gradient(circle, var(--glow-color), transparent);
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { opacity: 0.12; transform: scale(1); }
+            50% { opacity: 0.22; transform: scale(1.1); }
+        }
+
+        .faq-item {
+            border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+            transition: all 0.3s ease;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
+        .faq-question {
+            cursor: pointer;
+            padding: 1.5rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
+        .faq-question:hover {
+            padding-left: 1rem;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            opacity: 1;
+            padding-bottom: 1.5rem;
+        }
+
+        .faq-icon {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="fixed top-0 w-full z-50 py-2 px-10 flex justify-between items-center header-blur">
+        <div class="flex items-center gap-4">
+            <img src="images/brand/logo-minimalist.png" alt="V3NOM" class="v3nom-logo-nav">
+        </div>
+        
+        <nav class="hidden md:flex gap-12 text-[10px] tracking-[0.5em] uppercase font-bold">
+            <a href="#eclipse" class="nav-link opacity-50">ECLIPSE</a>
+            <a href="#tracks" class="nav-link opacity-50">Faixas</a>
+            <a href="#shop" class="nav-link opacity-50">Shop</a>
+            <a href="#about" class="nav-link opacity-50">Sobre</a>
+            <a href="#faq" class="nav-link opacity-50">FAQ</a>
+        </nav>
+
+        <button class="theme-toggle" onclick="toggleTheme()">
+            <span id="themeIcon">
+                <svg class="w-4 h-4 fill-current" viewBox="0 0 640 640"><path d="M210.2 53.9C217.6 50.8 226 51.7 232.7 56.1L320.5 114.3L408.3 56.1C415 51.7 423.4 50.9 430.8 53.9C438.2 56.9 443.4 63.5 445 71.3L465.9 174.5L569.1 195.4C576.9 197 583.5 202.4 586.5 209.7C589.5 217 588.7 225.5 584.3 232.2L526.1 320L584.3 407.8C588.7 414.5 589.5 422.9 586.5 430.3C583.5 437.7 576.9 443.1 569.1 444.6L465.8 465.4L445 568.7C443.4 576.5 438 583.1 430.7 586.1C423.4 589.1 414.9 588.3 408.2 583.9L320.4 525.7L232.6 583.9C225.9 588.3 217.5 589.1 210.1 586.1C202.7 583.1 197.3 576.5 195.8 568.7L175 465.4L71.7 444.5C63.9 442.9 57.3 437.5 54.3 430.2C51.3 422.9 52.1 414.4 56.5 407.7L114.7 320L56.5 232.2C52.1 225.5 51.3 217.1 54.3 209.7C57.3 202.3 63.9 196.9 71.7 195.4L175 174.6L195.9 71.3C197.5 63.5 202.9 56.9 210.2 53.9zM239.6 320C239.6 275.6 275.6 239.6 320 239.6C364.4 239.6 400.4 275.6 400.4 320C400.4 364.4 364.4 400.4 320 400.4C275.6 400.4 239.6 364.4 239.6 320zM448.4 320C448.4 249.1 390.9 191.6 320 191.6C249.1 191.6 191.6 249.1 191.6 320C191.6 390.9 249.1 448.4 320 448.4C390.9 448.4 448.4 390.9 448.4 320z"/></svg>
+            </span>
+            <span id="themeLabel" class="text-[10px] tracking-widest">LIGHT MATTER</span>
+        </button>
+    </header>
+
+    <section class="h-screen w-full flex items-center justify-center relative overflow-hidden" id="hero">
+        <div class="glow-effect" style="width: 600px; height: 600px; top: 20%; left: 10%; animation-delay: 0s;"></div>
+        <div class="glow-effect" style="width: 500px; height: 500px; bottom: 15%; right: 15%; animation-delay: 1.5s;"></div>
+        <img src="images/brand/3d-b.png" alt="V3NOM" class="v3nom-logo-hero select-none opacity-1 scale-95" id="heroLogo" data-light-src="images/brand/3d-b.png" data-dark-src="images/brand/3d-w.png">
+    </section>
+
+    <section id="eclipse" class="min-h-[70vh] flex flex-col justify-center px-10 py-32 border-t border-white/5 relative overflow-hidden">
+        <div class="glow-effect" style="width: 400px; height: 400px; top: 10%; left: 15%; animation-delay: 0s;"></div>
+        <div class="glow-effect" style="width: 300px; height: 300px; bottom: 20%; right: 20%; animation-delay: 2s;"></div>
+        <div class="max-w-4xl mx-auto text-center relative z-10">
+            <h2 class="text-[9px] tracking-[1.5em] uppercase font-bold mb-12 contrast-text animate-element">ECLIPSE</h2>
+            <p class="gothic-font text-4xl md:text-6xl leading-tight animate-element">
+                "Uma sombra fugaz que nunca se materializa. Uma sombra que não tem vida. Neste universo, as pessoas que me fizeram mal estarão presas em um ciclo interminável de dor, lutando contra forças invisíveis que não podem vencer, nem ver, só temer."
+            </p>
+        </div>
+    </section>
+
+    <section id="tracks" class="py-40 px-10 overflow-hidden relative">
+        <div class="glow-effect" style="width: 500px; height: 500px; top: 30%; left: 5%; animation-delay: 1s;"></div>
+        <div class="glow-effect" style="width: 350px; height: 350px; bottom: 10%; right: 10%; animation-delay: 3s;"></div>
+        <div class="max-w-5xl mx-auto mb-32 text-center relative z-10">
+            <h2 class="text-[9px] tracking-[1.5em] uppercase font-bold mb-4 contrast-text animate-element">A PLAYLIST DO CAOS</h2>
+            <h3 class="text-6xl md:text-8xl gothic-font animate-element">Tracklist</h3>
+        </div>
+
+        <div class="max-w-5xl mx-auto space-y-0">
+            <a href="https://open.spotify.com/intl-pt/track/51J7XgUeRMyVfe02DpsGo3?si=b858a7d65be34817" target="_blank" class="track-item flex items-center justify-between py-10 group cursor-pointer border-b border-white/10">
+                <div class="flex items-center gap-12">
+                    <span class="gothic-font text-3xl opacity-40 group-hover:opacity-100 transition-opacity">01.</span>
+                    <h4 class="text-3xl md:text-6xl font-black uppercase tracking-tighter leading-none">ROBOCOP</h4>
+                </div>
+                <div class="text-right flex flex-col items-end gap-2">
+                    <span class="text-[10px] font-mono tracking-widest uppercase contrast-text">113.507 Streams</span>
+                    <img src="images/icons/arrow-up-right.svg" class="w-6 h-6 opacity-0 group-hover:opacity-100 transition-all transform group-hover:translate-x-1 track-icon-img" alt="Abrir">
+                </div>
+            </a>
+
+            <a href="https://open.spotify.com/intl-pt/track/1hMxC0rZwoeLg9Ngs2mzan?si=f3766fe317874c7e" target="_blank" class="track-item flex items-center justify-between py-10 group cursor-pointer border-b border-white/10">
+                <div class="flex items-center gap-12">
+                    <span class="gothic-font text-3xl opacity-40 group-hover:opacity-100 transition-opacity">02.</span>
+                    <h4 class="text-3xl md:text-6xl font-black uppercase tracking-tighter leading-none">SCORPION</h4>
+                </div>
+                <div class="text-right flex flex-col items-end gap-2">
+                    <span class="text-[10px] font-mono tracking-widest uppercase contrast-text">57.485 Streams</span>
+                    <img src="images/icons/arrow-up-right.svg" class="w-6 h-6 opacity-0 group-hover:opacity-100 transition-all transform group-hover:translate-x-1 track-icon-img" alt="Abrir">
+                </div>
+            </a>
+
+            <a href="https://open.spotify.com/intl-pt/track/2bbDebTf3aQ45Q0TTFhlXy?si=af28b2221af8491c" target="_blank" class="track-item flex items-center justify-between py-10 group cursor-pointer border-b border-white/10">
+                <div class="flex items-center gap-12">
+                    <span class="gothic-font text-3xl opacity-40 group-hover:opacity-100 transition-opacity">03.</span>
+                    <h4 class="text-3xl md:text-6xl font-black uppercase tracking-tighter leading-none">ØZ</h4>
+                </div>
+                <div class="text-right flex flex-col items-end gap-2">
+                    <span class="text-[10px] font-mono tracking-widest uppercase contrast-text">50.981 Streams</span>
+                    <img src="images/icons/arrow-up-right.svg" class="w-6 h-6 opacity-0 group-hover:opacity-100 transition-all transform group-hover:translate-x-1 track-icon-img" alt="Abrir">
+                </div>
+            </a>
+
+            <a href="https://open.spotify.com/intl-pt/track/5OCoPlEEgCnZdZxhkyIdua?si=235a1bebfe824471" target="_blank" class="track-item flex items-center justify-between py-10 group cursor-pointer border-b border-white/10">
+                <div class="flex items-center gap-12">
+                    <span class="gothic-font text-3xl opacity-40 group-hover:opacity-100 transition-opacity">04.</span>
+                    <h4 class="text-3xl md:text-6xl font-black uppercase tracking-tighter leading-none">DARTH VADER</h4>
+                </div>
+                <div class="text-right flex flex-col items-end gap-2">
+                    <span class="text-[10px] font-mono tracking-widest uppercase contrast-text">69.961 Streams</span>
+                    <img src="images/icons/arrow-up-right.svg" class="w-6 h-6 opacity-0 group-hover:opacity-100 transition-all transform group-hover:translate-x-1 track-icon-img" alt="Abrir">
+                </div>
+            </a>
+
+            <a href="https://open.spotify.com/intl-pt/track/2ohD6QYYidzlk89Bs4y9Nm?si=4a3a4573b3a34b8d" target="_blank" class="track-item flex items-center justify-between py-10 group cursor-pointer border-b border-white/10">
+                <div class="flex items-center gap-12">
+                    <span class="gothic-font text-3xl opacity-40 group-hover:opacity-100 transition-opacity">05.</span>
+                    <h4 class="text-3xl md:text-6xl font-black uppercase tracking-tighter leading-none">V DE VINGANÇA</h4>
+                </div>
+                <div class="text-right flex flex-col items-end gap-2">
+                    <span class="text-[10px] font-mono tracking-widest uppercase contrast-text">49.636 Streams</span>
+                    <img src="images/icons/arrow-up-right.svg" class="w-6 h-6 opacity-0 group-hover:opacity-100 transition-all transform group-hover:translate-x-1 track-icon-img" alt="Abrir">
+                </div>
+            </a>
+
+            <a href="https://open.spotify.com/intl-pt/track/0EFlG7mZ9qBpgRUKZZAUQh?si=a608e1a7477d43a5" target="_blank" class="track-item flex items-center justify-between py-10 group cursor-pointer border-b border-white/10">
+                <div class="flex items-center gap-12">
+                    <span class="gothic-font text-3xl opacity-40 group-hover:opacity-100 transition-opacity">06.</span>
+                    <h4 class="text-3xl md:text-6xl font-black uppercase tracking-tighter leading-none">REDLASER</h4>
+                </div>
+                <div class="text-right flex flex-col items-end gap-2">
+                    <span class="text-[10px] font-mono tracking-widest uppercase contrast-text">35.369 Streams</span>
+                    <img src="images/icons/arrow-up-right.svg" class="w-6 h-6 opacity-0 group-hover:opacity-100 transition-all transform group-hover:translate-x-1 track-icon-img" alt="Abrir">
+                </div>
+            </a>
+
+            <a href="https://open.spotify.com/intl-pt/track/3kRqSQP9IRPYKipVYbaly7?si=a5a8ea414f8c4270" target="_blank" class="track-item flex items-center justify-between py-10 group cursor-pointer border-b border-white/10">
+                <div class="flex items-center gap-12">
+                    <span class="gothic-font text-3xl opacity-40 group-hover:opacity-100 transition-opacity">07.</span>
+                    <h4 class="text-3xl md:text-6xl font-black uppercase tracking-tighter leading-none">EVIL LONDRES</h4>
+                </div>
+                <div class="text-right flex flex-col items-end gap-2">
+                    <span class="text-[10px] font-mono tracking-widest uppercase contrast-text">37.736 Streams</span>
+                    <img src="images/icons/arrow-up-right.svg" class="w-6 h-6 opacity-0 group-hover:opacity-100 transition-all transform group-hover:translate-x-1 track-icon-img" alt="Abrir">
+                </div>
+            </a>
+
+            <a href="https://open.spotify.com/intl-pt/track/0cU79mTJbjqNqOdWaulNZV?si=7b3d4e63e78e4881" target="_blank" class="track-item flex items-center justify-between py-10 group cursor-pointer border-b border-white/10">
+                <div class="flex items-center gap-12">
+                    <span class="gothic-font text-3xl opacity-40 group-hover:opacity-100 transition-opacity">08.</span>
+                    <h4 class="text-3xl md:text-6xl font-black uppercase tracking-tighter leading-none">HIGHWAY</h4>
+                </div>
+                <div class="text-right flex flex-col items-end gap-2">
+                    <span class="text-[10px] font-mono tracking-widest uppercase contrast-text">29.193 Streams</span>
+                    <img src="images/icons/arrow-up-right.svg" class="w-6 h-6 opacity-0 group-hover:opacity-100 transition-all transform group-hover:translate-x-1 track-icon-img" alt="Abrir">
+                </div>
+            </a>
+
+            <a href="https://open.spotify.com/intl-pt/track/1vZISohvhvcJxrONzavHKZ?si=5449d2b906024dac" target="_blank" class="track-item flex items-center justify-between py-10 group cursor-pointer border-b border-white/10">
+                <div class="flex items-center gap-12">
+                    <span class="gothic-font text-3xl opacity-40 group-hover:opacity-100 transition-opacity">09.</span>
+                    <h4 class="text-3xl md:text-6xl font-black uppercase tracking-tighter leading-none">RUNAS</h4>
+                </div>
+                <div class="text-right flex flex-col items-end gap-2">
+                    <span class="text-[10px] font-mono tracking-widest uppercase contrast-text">24.166 Streams</span>
+                    <img src="images/icons/arrow-up-right.svg" class="w-6 h-6 opacity-0 group-hover:opacity-100 transition-all transform group-hover:translate-x-1 track-icon-img" alt="Abrir">
+                </div>
+            </a>
+
+            <a href="https://open.spotify.com/intl-pt/track/1ef71HcTVkeLNe8cAxD3L5?si=7a84ab686dc34dd3" target="_blank" class="track-item flex items-center justify-between py-10 group cursor-pointer border-b border-white/10">
+                <div class="flex items-center gap-12">
+                    <span class="gothic-font text-3xl opacity-40 group-hover:opacity-100 transition-opacity">10.</span>
+                    <h4 class="text-3xl md:text-6xl font-black uppercase tracking-tighter leading-none">OPEN</h4>
+                </div>
+                <div class="text-right flex flex-col items-end gap-2">
+                    <span class="text-[10px] font-mono tracking-widest uppercase contrast-text">23.647 Streams</span>
+                    <img src="images/icons/arrow-up-right.svg" class="w-6 h-6 opacity-0 group-hover:opacity-100 transition-all transform group-hover:translate-x-1 track-icon-img" alt="Abrir">
+                </div>
+            </a>
+
+            <a href="https://open.spotify.com/intl-pt/track/6ceksbh0Xs2Q8olK4jGCQT?si=cd55c60966a644a7" target="_blank" class="track-item flex items-center justify-between py-10 group cursor-pointer border-b border-white/10">
+                <div class="flex items-center gap-12">
+                    <span class="gothic-font text-3xl opacity-40 group-hover:opacity-100 transition-opacity">11.</span>
+                    <h4 class="text-3xl md:text-6xl font-black uppercase tracking-tighter leading-none">4 MIL MINUTOS</h4>
+                </div>
+                <div class="text-right flex flex-col items-end gap-2">
+                    <span class="text-[10px] font-mono tracking-widest uppercase contrast-text">17.955 Streams</span>
+                    <img src="images/icons/arrow-up-right.svg" class="w-6 h-6 opacity-0 group-hover:opacity-100 transition-all transform group-hover:translate-x-1 track-icon-img" alt="Abrir">
+                </div>
+            </a>
+
+            <a href="https://open.spotify.com/intl-pt/track/32u2ZPmFbcQDooBTQwzt9O?si=f3bf1e5d26164f97" target="_blank" class="track-item flex items-center justify-between py-10 group cursor-pointer border-b border-white/10">
+                <div class="flex items-center gap-12">
+                    <span class="gothic-font text-3xl opacity-40 group-hover:opacity-100 transition-opacity">12.</span>
+                    <h4 class="text-3xl md:text-6xl font-black uppercase tracking-tighter leading-none">ZATMENIE</h4>
+                </div>
+                <div class="text-right flex flex-col items-end gap-2">
+                    <span class="text-[10px] font-mono tracking-widest uppercase contrast-text">16.691 Streams</span>
+                    <img src="images/icons/arrow-up-right.svg" class="w-6 h-6 opacity-0 group-hover:opacity-100 transition-all transform group-hover:translate-x-1 track-icon-img" alt="Abrir">
+                </div>
+            </a>
+
+            <a href="https://open.spotify.com/intl-pt/track/2l6UTc6vaB7BnX3zNtxuUm?si=aed819099a18464f" target="_blank" class="track-item flex items-center justify-between py-10 group cursor-pointer border-b border-white/10">
+                <div class="flex items-center gap-12">
+                    <span class="gothic-font text-3xl opacity-40 group-hover:opacity-100 transition-opacity">13.</span>
+                    <h4 class="text-3xl md:text-6xl font-black uppercase tracking-tighter leading-none">DARK MATTER</h4>
+                </div>
+                <div class="text-right flex flex-col items-end gap-2">
+                    <span class="text-[10px] font-mono tracking-widest uppercase contrast-text">59.616 Streams</span>
+                    <img src="images/icons/arrow-up-right.svg" class="w-6 h-6 opacity-0 group-hover:opacity-100 transition-all transform group-hover:translate-x-1 track-icon-img" alt="Abrir">
+                </div>
+            </a>
+
+            <a href="https://open.spotify.com/intl-pt/track/3nJNWuJ1e2PapyXUmdVMWl?si=4c24eff662cc437b" target="_blank" class="track-item flex items-center justify-between py-10 group cursor-pointer border-b border-white/10">
+                <div class="flex items-center gap-12">
+                    <span class="gothic-font text-3xl opacity-40 group-hover:opacity-100 transition-opacity">14.</span>
+                    <h4 class="text-3xl md:text-6xl font-black uppercase tracking-tighter leading-none">X LIGHT MATTER</h4>
+                </div>
+                <div class="text-right flex flex-col items-end gap-2">
+                    <span class="text-[10px] font-mono tracking-widest uppercase contrast-text">15.480 Streams</span>
+                    <img src="images/icons/arrow-up-right.svg" class="w-6 h-6 opacity-0 group-hover:opacity-100 transition-all transform group-hover:translate-x-1 track-icon-img" alt="Abrir">
+                </div>
+            </a>
+
+            <a href="https://open.spotify.com/intl-pt/track/69knMySlhMEFYw5jmP5lg0?si=8f8bd6199a8e4e13" target="_blank" class="track-item flex items-center justify-between py-10 group cursor-pointer border-b border-white/10">
+                <div class="flex items-center gap-12">
+                    <span class="gothic-font text-3xl opacity-40 group-hover:opacity-100 transition-opacity">15.</span>
+                    <h4 class="text-3xl md:text-6xl font-black uppercase tracking-tighter leading-none">ØPHELIAS II</h4>
+                </div>
+                <div class="text-right flex flex-col items-end gap-2">
+                    <span class="text-[10px] font-mono tracking-widest uppercase contrast-text">43.658 Streams</span>
+                    <img src="images/icons/arrow-up-right.svg" class="w-6 h-6 opacity-0 group-hover:opacity-100 transition-all transform group-hover:translate-x-1 track-icon-img" alt="Abrir">
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <section id="about" class="py-40 px-10 bg-current/5 relative overflow-hidden">
+        <div class="glow-effect" style="width: 450px; height: 450px; top: 15%; right: 8%; animation-delay: 1.5s;"></div>
+        <div class="glow-effect" style="width: 280px; height: 280px; bottom: 25%; left: 12%; animation-delay: 0.5s;"></div>
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-20 items-center relative z-10">
+            <div class="relative aspect-square overflow-hidden about-image-container animate-element">
+                <img id="aboutAlbumImg" src="images/brand/album-b.png" alt="Vibe" class="w-full h-full object-cover filter grayscale contrast-125 brightness-75 about-image">
+            </div>
+            <div class="animate-element">
+                <h2 class="text-[9px] tracking-[1em] uppercase font-bold mb-8 contrast-text">O ÁLBUM</h2>
+                <h3 class="text-5xl md:text-7xl gothic-font mb-12">O Veneno É O Próprio Antídoto</h3>
+                <p class="text-lg md:text-xl font-light leading-relaxed opacity-80">
+                    "O mundo pede plástico, nós entregamos verdade. V3NOM explora a dualidade que vive em todos nós: o veneno que mata o ego é o mesmo antídoto que cura a alma. Não é sobre vestir uma máscara, é sobre ter a coragem de tirá-la num mundo genérico."                </p>
+                <div class="mt-16">
+                    <a href="https://open.spotify.com/intl-pt/album/2n7tTjN6PoCFv1x2LDAnuv?si=S1Z7SlfxQAChIXMFoyzTEA" class="inline-block border border-current px-12 py-5 gothic-font text-2xl hover:bg-white hover:text-black transition-all rounded-xl">Ouça Agora</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="video" class="py-32 px-10 relative overflow-hidden">
+        <div class="glow-effect" style="width: 550px; height: 550px; top: 10%; right: 15%; animation-delay: 0.5s;"></div>
+        <div class="glow-effect" style="width: 350px; height: 350px; bottom: 10%; left: 10%; animation-delay: 2.5s;"></div>
+
+        <div class="max-w-6xl mx-auto relative z-10">
+            <div class="text-center mb-16">
+                <h2 class="text-[9px] tracking-[1.5em] uppercase font-bold mb-6 contrast-text animate-element">BASTIDORES</h2>
+                <h3 class="text-4xl md:text-6xl gothic-font animate-element">MC Lan fala sobre V3NOM</h3>
+            </div>
+            
+            <div class="relative w-full aspect-video rounded-xl overflow-hidden border border-white/10 shadow-2xl group animate-element">
+                <div class="absolute inset-0 z-20 flex items-center justify-center bg-black/10 hover:bg-black/5 transition-all cursor-pointer" 
+                     onclick="this.style.pointerEvents='none'; this.style.opacity='0'; var iframe = this.nextElementSibling; var src = iframe.src; iframe.src = src + (src.includes('?') ? '&' : '?') + 'autoplay=1';">
+                    <div class="w-20 h-20 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 transition-transform transform group-hover:scale-110">
+                         <svg class="w-8 h-8 fill-current text-white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </div>
+                </div>
+                <iframe class="w-full h-full relative z-10" src="https://www.youtube.com/embed/_ZL4WDcA_d4?enablejsapi=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+        </div>
+    </section>
+
+    <section id="shop" class="py-40 px-10 relative overflow-hidden">
+        <div class="glow-effect" style="width: 380px; height: 380px; top: 20%; left: 3%; animation-delay: 2.5s;"></div>
+        <div class="glow-effect" style="width: 320px; height: 320px; bottom: 15%; right: 5%; animation-delay: 1s;"></div>
+        <div class="max-w-7xl mx-auto mb-24 text-left relative z-10">
+            <h2 class="text-[9px] tracking-[1em] uppercase font-bold mb-4 contrast-text animate-element">COLEÇÃO V3 // EDIÇÃO 01</h2>
+            <h3 class="text-5xl md:text-7xl gothic-font animate-element">V3NOM SHOP</h3>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto relative z-10">
+            <div class="merch-card group cursor-pointer">
+                <img src="https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&q=80&w=800" alt="T-Shirt" class="merch-image">
+                <div class="merch-overlay">
+                    <div class="w-full">
+                        <div class="flex justify-between items-end border-b border-white/20 pb-6">
+                            <div>
+                                <p class="text-[10px] font-mono opacity-80 uppercase mb-2">Item_01</p>
+                                <h4 class="gothic-font text-4xl">T-Shirt Distorção</h4>
+                                <p class="text-[9px] tracking-widest opacity-40 uppercase mt-2">Algodão Premium Industrial</p>
+                            </div>
+                            <span class="text-2xl font-black">R$140</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="merch-card group cursor-pointer">
+                <img src="https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&q=80&w=800" alt="Hoodie" class="merch-image">
+                <div class="merch-overlay">
+                    <div class="w-full">
+                        <div class="flex justify-between items-end border-b border-white/20 pb-6">
+                            <div>
+                                <p class="text-[10px] font-mono opacity-80 uppercase mb-2">Item_02</p>
+                                <h4 class="gothic-font text-4xl">Moletom Caos</h4>
+                                <p class="text-[9px] tracking-widest opacity-40 uppercase mt-2">Oversized Heavy Weight</p>
+                            </div>
+                            <span class="text-2xl font-black">R$290</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="merch-card group cursor-pointer">
+                <img src="https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&q=80&w=800" alt="Chain" class="merch-image">
+                <div class="merch-overlay">
+                    <div class="w-full">
+                        <div class="flex justify-between items-end border-b border-white/20 pb-6">
+                            <div>
+                                <p class="text-[10px] font-mono opacity-80 uppercase mb-2">Item_03</p>
+                                <h4 class="gothic-font text-4xl">Gothic Chain</h4>
+                                <p class="text-[9px] tracking-widest opacity-40 uppercase mt-2">Aço Cirúrgico 316L</p>
+                            </div>
+                            <span class="text-2xl font-black">R$90</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="py-40 px-10 relative overflow-hidden">
+        <div class="glow-effect" style="width: 400px; height: 400px; top: 10%; right: 10%; animation-delay: 0.8s;"></div>
+        <div class="glow-effect" style="width: 300px; height: 300px; bottom: 20%; left: 8%; animation-delay: 2.2s;"></div>
+        
+        <div class="max-w-4xl mx-auto relative z-10">
+            <div class="text-center mb-20">
+                <h2 class="text-[9px] tracking-[1.5em] uppercase font-bold mb-4 contrast-text">DÚVIDAS E CONCEITOS</h2>
+                <h3 class="text-5xl md:text-7xl gothic-font">FAQ</h3>
+            </div>
+    
+            <div class="space-y-0">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4 class="text-xl md:text-3xl font-black uppercase tracking-tight">O que é o projeto V3NOM?</h4>
+                        <svg class="faq-icon w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="text-base md:text-lg leading-relaxed contrast-text">
+                            V3NOM não é apenas um álbum, é a morte do ego e o renascimento do instinto. É a ruptura de MC Lan com o esperado, mergulhando no Rock Industrial, Punk e Nu Metal. É o resultado de um processo de reconstrução silenciosa, fundindo a visceralidade das ruas com a agressividade das guitarras.
+                        </p>
+                    </div>
+                </div>
+    
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4 class="text-xl md:text-3xl font-black uppercase tracking-tight">Por que "V3NOM"?</h4>
+                        <svg class="faq-icon w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="text-base md:text-lg leading-relaxed contrast-text">
+                            Não é sobre o personagem. É sobre a natureza humana. Todo ser vivo carrega um veneno que pode matar ou curar. V3NOM explora essa dualidade: o veneno que expurgamos para sobreviver e o antídoto que encontramos no caos. É a aceitação da nossa parte mais crua e "reptiliana".
+                        </p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4 class="text-xl md:text-3xl font-black uppercase tracking-tight">Quem constrói o universo V3NOM?</h4>
+                        <svg class="faq-icon w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="text-base md:text-lg leading-relaxed contrast-text">
+                            V3NOM não é um monólogo, é um coro de mentes. O projeto formou a banda <strong>V3</strong> (com Twin Pumpkin e Mary Moa) e rompeu fronteiras com colaborações lendárias como <strong>Ra Díaz (Korn)</strong>, membros do <strong>System of a Down</strong> e <strong>Criolo</strong>. É a união do underground, do mainstream e do metal internacional.
+                        </p>
+                    </div>
+                </div>
+    
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4 class="text-xl md:text-3xl font-black uppercase tracking-tight">Quem orquestra o visual do caos?</h4>
+                        <svg class="faq-icon w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="text-base md:text-lg leading-relaxed contrast-text">
+                            Toda a identidade visual e o conceito artístico foram dirigidos por <strong>Geovana</strong>. Lan descreve que, enquanto ele trazia a tempestade e a bipolaridade sonora, ela atuou como a "terapeuta do projeto", organizando a loucura e transformando sentimentos abstratos na estética visual única que define o V3NOM.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4 class="text-xl md:text-3xl font-black uppercase tracking-tight">Por que abandonar a fórmula do sucesso?</h4>
+                        <svg class="faq-icon w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="text-base md:text-lg leading-relaxed contrast-text">
+                            O álbum é uma resposta ao "Brasil genérico". Lan critica a ideia de que o brasileiro foi "fabricado apenas para ser feliz" e para o Carnaval. V3NOM surge da necessidade de mostrar o outro lado: a dor, a reflexão e a introspecção que existem nas ruas, mas que a indústria se recusa a mostrar. É o resgate da arte profunda em um mundo de consumo rápido.
+                        </p>
+                    </div>
+                </div>
+    
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4 class="text-xl md:text-3xl font-black uppercase tracking-tight">Qual a conexão com RoboCop e Darth Vader?</h4>
+                        <svg class="faq-icon w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="text-base md:text-lg leading-relaxed contrast-text">
+                            São metáforas de redenção e humanidade. O "Cemitério de Robocops" simboliza a busca pelo coração humano dentro de um mundo dominado pela frieza tecnológica. Já Darth Vader representa o arco da queda e da redenção — a prova de que até na escuridão mais profunda existe um caminho de volta para a luz.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4 class="text-xl md:text-3xl font-black uppercase tracking-tight">Existe um lado espiritual no projeto?</h4>
+                        <svg class="faq-icon w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="text-base md:text-lg leading-relaxed contrast-text">
+                            Sim. V3NOM não é apenas música, é uma conexão ancestral. Lan descreve o projeto como uma semente plantada por seus antepassados — de Diamantina a Angola. O álbum transita por diferentes crenças, unindo Orixás e Deus em um único caminho de autoconhecimento, provando que a escuridão e a luz levam ao mesmo lugar.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4 class="text-xl md:text-3xl font-black uppercase tracking-tight">Como o álbum foi gravado?</h4>
+                        <svg class="faq-icon w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="text-base md:text-lg leading-relaxed contrast-text">
+                            Longe de grandes estúdios corporativos. O álbum nasceu no caos e na natureza, gravado em uma "casa de fundos" cercada por barro e plantas. Foi um processo visceral, com sessões de gritos às 4 da manhã e conflitos reais. Essa atmosfera crua, sem filtros, é o que dá a textura "suja" e autêntica que se ouve em cada faixa.
+                        </p>
+                    </div>
+                </div>
+    
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4 class="text-xl md:text-3xl font-black uppercase tracking-tight">O que significa o "Eclipse"?</h4>
+                        <svg class="faq-icon w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="text-base md:text-lg leading-relaxed contrast-text">
+                            O Eclipse é o momento da revelação. É quando a sombra é projetada para que a luz possa ser compreendida. Neste álbum, o Eclipse marca o fim de um ciclo de silêncio e a revelação da verdadeira face artística de Caio, sem as máscaras que o mercado exigia.
+                        </p>
+                    </div>
+                </div>
+    
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4 class="text-xl md:text-3xl font-black uppercase tracking-tight">O "Eclipse" é o fim?</h4>
+                        <svg class="faq-icon w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="text-base md:text-lg leading-relaxed contrast-text">
+                            É apenas o começo. "Eclipse" é o Volume 1 de uma saga maior. O projeto foi desenhado para ter continuidade, com novos volumes já idealizados que continuarão a explorar as facetas dessa reconstrução. O V3NOM é um universo em expansão contínua.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="relative overflow-hidden h-[55vh] flex flex-col justify-end bg-transparent pb-12 px-10">
+        <div class="absolute inset-0 w-full flex items-end justify-center footer-mask overflow-hidden pointer-events-none">
+             <h2 class="gothic-font text-[30vw] md:text-[24vw] leading-[0.7] select-none whitespace-nowrap opacity-10 pb-10" id="footerBigText">
+                V3NOM
+            </h2>
+        </div>
+        
+        <div class="relative z-10 flex flex-col md:flex-row justify-between items-end w-full">
+            <div class="text-[8px] tracking-[0.3em] uppercase font-medium contrast-text">
+                © 2025 MC LAN — V3NOM
+            </div>
+
+            <div class="flex gap-8 items-center mt-6 md:mt-0">
+                <a href="https://www.instagram.com/mclan" target="_blank" aria-label="Instagram">
+                    <svg class="w-5 h-5 fill-current opacity-50 hover:opacity-100 transition-opacity" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.645.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c.796 0 1.441.645 1.441 1.44s-.645 1.44-1.441 1.44c-.795 0-1.439-.645-1.439-1.44s.644-1.44 1.439-1.44z"/></svg>
+                </a>
+                
+                <a href="https://x.com/mclan23" target="_blank" aria-label="Twitter">
+                    <svg class="w-5 h-5 fill-current opacity-50 hover:opacity-100 transition-opacity" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </a>
+
+                <a href="https://open.spotify.com/intl-pt/artist/4mb1xtQVGSK5dh8AbtwBiR?si=IdxUZvU7Qz6SqDf6LpbJHw" target="_blank" aria-label="Spotify">
+                    <svg class="w-5 h-5 fill-current opacity-50 hover:opacity-100 transition-opacity" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5.59 17.357c-.225.369-.706.488-1.074.264-2.905-1.774-6.561-2.174-10.866-1.192-.422.096-.844-.17-.941-.593s.17-.843.593-.941c4.707-1.076 8.741-.611 11.984 1.369.371.226.49.707.266 1.076zm1.493-3.264c-.283.458-.883.606-1.341.324-3.322-2.041-8.385-2.633-12.312-1.441-.515.156-1.066-.135-1.222-.65-.155-.515.135-1.066.65-1.222 4.484-1.361 10.063-.701 13.9 1.658.458.283.606.883.324 1.341zm.134-3.4c-3.985-2.367-10.553-2.585-14.351-1.432-.611.186-1.255-.164-1.441-.774s.164-1.255.774-1.441c4.354-1.321 11.597-1.063 16.12 1.623.549.326.732 1.034.406 1.583s-1.034.732-1.584.407z"/></svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <div id="audioModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center bg-black/90 backdrop-blur-xl transition-opacity duration-500 opacity-0 pointer-events-none">
+        <div class="w-full max-w-2xl p-8 md:p-12 relative">
+            <button id="closeModalBtn" class="absolute top-0 right-0 p-4 opacity-50 hover:opacity-100 transition-opacity">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+
+            <div id="spotify-embed-container" class="absolute opacity-0 pointer-events-none w-1 h-1 overflow-hidden" style="bottom: 0; right: 0;"></div>
+
+            <div class="text-center mb-12">
+                <h4 class="text-xs tracking-[0.5em] text-white/50 uppercase mb-4">Tocando</h4>
+                <h2 id="modalTrackTitle" class="text-4xl md:text-6xl font-black text-white gothic-font uppercase tracking-tighter">TRACK NAME</h2>
+            </div>
+
+            <div class="flex items-center justify-center gap-1 h-16 mb-12" id="waveform">
+            </div>
+
+            <div class="flex flex-col items-center gap-8">
+                <div class="w-full h-1 bg-white/10 rounded-full overflow-hidden relative group cursor-pointer" id="progressContainer">
+                    <div id="progressBar" class="h-full bg-white w-0 transition-all duration-200 ease-linear relative">
+                        <div class="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-[0_0_10px_rgba(255,255,255,0.8)]"></div>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-8">
+                    <button id="playPauseBtn" class="w-16 h-16 rounded-full bg-white text-black flex items-center justify-center transition-all group hover:scale-105">
+                        <svg id="playIcon" class="w-6 h-6 fill-current translate-x-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        <svg id="pauseIcon" class="w-6 h-6 fill-current hidden" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                    </button>
+                </div>
+
+                <div class="flex flex-col md:flex-row gap-4 mt-4 w-full justify-center">
+                    <a id="spotifyLink" href="#" target="_blank" class="px-6 py-3 border border-white/20 rounded-full text-[10px] md:text-xs tracking-widest hover:bg-white hover:text-black transition-all flex items-center justify-center gap-3 text-white">
+                        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5.59 17.357c-.225.369-.706.488-1.074.264-2.905-1.774-6.561-2.174-10.866-1.192-.422.096-.844-.17-.941-.593s.17-.843.593-.941c4.707-1.076 8.741-.611 11.984 1.369.371.226.49.707.266 1.076zm1.493-3.264c-.283.458-.883.606-1.341.324-3.322-2.041-8.385-2.633-12.312-1.441-.515.156-1.066-.135-1.222-.65-.155-.515.135-1.066.65-1.222 4.484-1.361 10.063-.701 13.9 1.658.458.283.606.883.324 1.341zm.134-3.4c-3.985-2.367-10.553-2.585-14.351-1.432-.611.186-1.255-.164-1.441-.774s.164-1.255.774-1.441c4.354-1.321 11.597-1.063 16.12 1.623.549.326.732 1.034.406 1.583s-1.034.732-1.584.407z"/></svg>
+                        OUVIR NO SPOTIFY
+                    </a>
+                    
+                    <a id="youtubeLink" href="#" target="_blank" class="px-6 py-3 border border-white/20 rounded-full text-[10px] md:text-xs tracking-widest hover:bg-white hover:text-black transition-all flex items-center justify-center gap-3 text-white">
+                        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+                        OUVIR NO YOUTUBE
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        const modal = document.getElementById('audioModal');
+        const modalTitle = document.getElementById('modalTrackTitle');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const playIcon = document.getElementById('playIcon');
+        const pauseIcon = document.getElementById('pauseIcon');
+        const progressBar = document.getElementById('progressBar');
+        const progressContainer = document.getElementById('progressContainer');
+        const spotifyLink = document.getElementById('spotifyLink');
+        const youtubeLink = document.getElementById('youtubeLink');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const waveform = document.getElementById('waveform');
+        const spotifyEmbedContainer = document.getElementById('spotify-embed-container');
+
+        let isPlaying = false;
+        let embedController = null;
+        let currentSpotifyId = "";
+        
+        for(let i = 0; i < 40; i++) {
+            const bar = document.createElement('div');
+            bar.className = 'w-1 bg-white/50 rounded-full transition-all duration-300';
+            bar.style.height = Math.random() * 100 + '%';
+            waveform.appendChild(bar);
+        }
+
+        function animateWaveform() {
+            if(!isPlaying) return;
+            const bars = waveform.children;
+            for(let bar of bars) {
+                bar.style.height = Math.random() * 100 + '%';
+            }
+        }
+        setInterval(animateWaveform, 150);
+
+        window.onSpotifyIframeApiReady = (IFrameAPI) => {
+            const element = document.createElement('div');
+            spotifyEmbedContainer.appendChild(element);
+            
+            const options = {
+                width: '100%',
+                height: '100%',
+                uri: 'spotify:track:51J7XgUeRMyVfe02DpsGo3' 
+            };
+            
+            const callback = (EmbedController) => {
+                embedController = EmbedController;
+                
+                embedController.addListener('playback_update', e => {
+                    const { position, duration, isPaused } = e.data;
+                    
+                    if (duration > 0) {
+                        const progressPercent = (position / duration) * 100;
+                        progressBar.style.width = `${progressPercent}%`;
+                    }
+
+                    if (isPaused !== !isPlaying) {
+                        isPlaying = !isPaused;
+                        updatePlayIcon();
+                    }
+                });
+            };
+            
+            IFrameAPI.createController(element, options, callback);
+        };
+        
+        function getSpotifyId(url) {
+            const match = url.match(/track\/([a-zA-Z0-9]+)/);
+            return match ? match[1] : null;
+        }
+
+        document.querySelectorAll('.track-item').forEach(track => {
+            track.addEventListener('click', function(e) {
+                if(e.target.closest('.track-icon-img')) return;
+                e.preventDefault();
+                
+                const title = this.querySelector('h4').innerText;
+                const url = this.getAttribute('href');
+                const spotifyId = getSpotifyId(url);
+                
+                openModal(title, url, spotifyId);
+            });
+        });
+
+        function openModal(title, url, spotifyId) {
+            modalTitle.innerText = title;
+            spotifyLink.href = url;
+            
+            const searchTerm = encodeURIComponent(`MC Lan V3NOM ${title}`);
+            youtubeLink.href = `https://music.youtube.com/search?q=${searchTerm}`;
+            
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0', 'pointer-events-none');
+            }, 10);
+            
+            if (embedController && spotifyId) {
+                currentSpotifyId = spotifyId;
+                embedController.loadUri(`spotify:track:${spotifyId}`);
+                embedController.play();
+                isPlaying = true;
+                updatePlayIcon();
+            }
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                if(embedController) {
+                    embedController.pause();
+                }
+                isPlaying = false;
+                updatePlayIcon();
+            }, 500);
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+
+        function togglePlay() {
+            if(embedController) {
+                embedController.togglePlay();
+            }
+        }
+
+        playPauseBtn.addEventListener('click', togglePlay);
+
+        progressContainer.addEventListener('click', (e) => {
+            if (!embedController) return;
+            
+            const rect = progressContainer.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const width = rect.width;
+            const seekPercent = clickX / width;
+            
+             embedController.seek(seekPercent * (currentDuration / 1000));
+        });
+        
+        let currentDuration = 0;
+
+        function updatePlayIcon() {
+            if(isPlaying) {
+                playIcon.classList.add('hidden');
+                pauseIcon.classList.remove('hidden');
+            } else {
+                playIcon.classList.remove('hidden');
+                pauseIcon.classList.add('hidden');
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if(e.key === 'Escape') closeModal();
+        });
+
+
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+            infinite: false,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time) => {
+            lenis.raf(time * 1000);
+        });
+        gsap.ticker.lagSmoothing(0);
+
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('v3nom-theme');
+            const body = document.body;
+            const label = document.getElementById('themeLabel');
+            const icon = document.getElementById('themeIcon');
+            const albumImg = document.getElementById('aboutAlbumImg');
+            const heroLogo = document.getElementById('heroLogo');
+            
+            if (savedTheme === 'dark') {
+                body.classList.add('dark-mode');
+                if(label) label.innerText = 'LIGHT MATTER';
+                if(icon) icon.innerHTML = `<svg class="w-4 h-4 fill-current" viewBox="0 0 640 640"><path d="M210.2 53.9C217.6 50.8 226 51.7 232.7 56.1L320.5 114.3L408.3 56.1C415 51.7 423.4 50.9 430.8 53.9C438.2 56.9 443.4 63.5 445 71.3L465.9 174.5L569.1 195.4C576.9 197 583.5 202.4 586.5 209.7C589.5 217 588.7 225.5 584.3 232.2L526.1 320L584.3 407.8C588.7 414.5 589.5 422.9 586.5 430.3C583.5 437.7 576.9 443.1 569.1 444.6L465.8 465.4L445 568.7C443.4 576.5 438 583.1 430.7 586.1C423.4 589.1 414.9 588.3 408.2 583.9L320.4 525.7L232.6 583.9C225.9 588.3 217.5 589.1 210.1 586.1C202.7 583.1 197.3 576.5 195.8 568.7L175 465.4L71.7 444.5C63.9 442.9 57.3 437.5 54.3 430.2C51.3 422.9 52.1 414.4 56.5 407.7L114.7 320L56.5 232.2C52.1 225.5 51.3 217.1 54.3 209.7C57.3 202.3 63.9 196.9 71.7 195.4L175 174.6L195.9 71.3C197.5 63.5 202.9 56.9 210.2 53.9zM239.6 320C239.6 275.6 275.6 239.6 320 239.6C364.4 239.6 400.4 275.6 400.4 320C400.4 364.4 364.4 400.4 320 400.4C275.6 400.4 239.6 364.4 239.6 320zM448.4 320C448.4 249.1 390.9 191.6 320 191.6C249.1 191.6 191.6 249.1 191.6 320C191.6 390.9 249.1 448.4 320 448.4C390.9 448.4 448.4 390.9 448.4 320z"/></svg>`;
+                if (albumImg) albumImg.src = 'images/brand/album-w.png';
+                if (heroLogo) heroLogo.src = heroLogo.getAttribute('data-dark-src');
+            } else {
+                body.classList.remove('dark-mode');
+                if(label) label.innerText = 'DARK MATTER';
+                if(icon) icon.innerHTML = `<svg class="w-4 h-4 fill-current" viewBox="0 0 640 640"><path d="M320 64C178.6 64 64 178.6 64 320C64 461.4 178.6 576 320 576C388.8 576 451.3 548.8 497.3 504.6C504.6 497.6 506.7 486.7 502.6 477.5C498.5 468.3 488.9 462.6 478.8 463.4C473.9 463.8 469 464 464 464C362.4 464 280 381.6 280 280C280 207.9 321.5 145.4 382.1 115.2C391.2 110.7 396.4 100.9 395.2 90.8C394 80.7 386.6 72.5 376.7 70.3C358.4 66.2 339.4 64 320 64z"/></svg>`;
+                if (albumImg) albumImg.src = 'images/brand/album-b.png';
+                if (heroLogo) heroLogo.src = heroLogo.getAttribute('data-light-src');
+            }
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            const label = document.getElementById('themeLabel');
+            const icon = document.getElementById('themeIcon');
+            const albumImg = document.getElementById('aboutAlbumImg');
+            const heroLogo = document.getElementById('heroLogo');
+            
+            body.classList.toggle('dark-mode');
+            
+            if(body.classList.contains('dark-mode')) {
+                localStorage.setItem('v3nom-theme', 'dark');
+                if(label) label.innerText = 'LIGHT MATTER';
+                if(icon) icon.innerHTML = `<svg class="w-4 h-4 fill-current" viewBox="0 0 640 640"><path d="M210.2 53.9C217.6 50.8 226 51.7 232.7 56.1L320.5 114.3L408.3 56.1C415 51.7 423.4 50.9 430.8 53.9C438.2 56.9 443.4 63.5 445 71.3L465.9 174.5L569.1 195.4C576.9 197 583.5 202.4 586.5 209.7C589.5 217 588.7 225.5 584.3 232.2L526.1 320L584.3 407.8C588.7 414.5 589.5 422.9 586.5 430.3C583.5 437.7 576.9 443.1 569.1 444.6L465.8 465.4L445 568.7C443.4 576.5 438 583.1 430.7 586.1C423.4 589.1 414.9 588.3 408.2 583.9L320.4 525.7L232.6 583.9C225.9 588.3 217.5 589.1 210.1 586.1C202.7 583.1 197.3 576.5 195.8 568.7L175 465.4L71.7 444.5C63.9 442.9 57.3 437.5 54.3 430.2C51.3 422.9 52.1 414.4 56.5 407.7L114.7 320L56.5 232.2C52.1 225.5 51.3 217.1 54.3 209.7C57.3 202.3 63.9 196.9 71.7 195.4L175 174.6L195.9 71.3C197.5 63.5 202.9 56.9 210.2 53.9zM239.6 320C239.6 275.6 275.6 239.6 320 239.6C364.4 239.6 400.4 275.6 400.4 320C400.4 364.4 364.4 400.4 320 400.4C275.6 400.4 239.6 364.4 239.6 320zM448.4 320C448.4 249.1 390.9 191.6 320 191.6C249.1 191.6 191.6 249.1 191.6 320C191.6 390.9 249.1 448.4 320 448.4C390.9 448.4 448.4 390.9 448.4 320z"/></svg>`;
+                if (albumImg) albumImg.src = 'images/brand/album-w.png';
+                if (heroLogo) heroLogo.src = heroLogo.getAttribute('data-dark-src');
+            } else {
+                localStorage.setItem('v3nom-theme', 'light');
+                if(label) label.innerText = 'DARK MATTER';
+                if(icon) icon.innerHTML = `<svg class="w-4 h-4 fill-current" viewBox="0 0 640 640"><path d="M320 64C178.6 64 64 178.6 64 320C64 461.4 178.6 576 320 576C388.8 576 451.3 548.8 497.3 504.6C504.6 497.6 506.7 486.7 502.6 477.5C498.5 468.3 488.9 462.6 478.8 463.4C473.9 463.8 469 464 464 464C362.4 464 280 381.6 280 280C280 207.9 321.5 145.4 382.1 115.2C391.2 110.7 396.4 100.9 395.2 90.8C394 80.7 386.6 72.5 376.7 70.3C358.4 66.2 339.4 64 320 64z"/></svg>`;
+                if (albumImg) albumImg.src = 'images/brand/album-b.png';
+                if (heroLogo) heroLogo.src = heroLogo.getAttribute('data-light-src');
+            }
+        }
+
+        loadTheme();
+
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', function() {
+                const faqItem = this.parentElement;
+                const isActive = faqItem.classList.contains('active');
+                
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                
+                if (!isActive) {
+                    faqItem.classList.add('active');
+                }
+            });
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const target = document.querySelector(this.getAttribute('href'));
+                if(target) {
+                    e.preventDefault();
+                    lenis.scrollTo(target, { offset: -80, duration: 1.5 });
+                }
+            });
+        });
+
+        window.addEventListener('load', () => {
+            gsap.to("#heroLogo", { opacity:0.9, scale: 1, duration: 2.5, ease: "expo.out" });
+            gsap.to("#heroLogo", { 
+                scrollTrigger: { 
+                    trigger: "#hero", 
+                    start: "top top", 
+                    end: "90%", 
+                    scrub: 1.5 
+                }, 
+                scale: 1.1, 
+                opacity: 0, 
+                y: -30 
+            });
+
+            gsap.from("header", {
+                y: -100,
+                opacity: 0,
+                duration: 1,
+                ease: "power3.out"
+            });
+
+            gsap.utils.toArray(".track-item").forEach((track) => {
+               gsap.fromTo(track, 
+                   { 
+                       x: -50, 
+                       opacity: 0 
+                   },
+                   {
+                       scrollTrigger: {
+                           trigger: track,
+                           start: "top 85%", 
+                           end: "top top",
+                           toggleActions: "play none none reverse" 
+                       },
+                       x: 0,
+                       opacity: 1,
+                       duration: 1,
+                       ease: "expo.out"
+                   }
+               );
+           });
+
+            gsap.utils.toArray(".animate-element").forEach((element, index) => {
+                if (element.closest('#faq')) return;
+                
+                gsap.from(element, {
+                    scrollTrigger: {
+                        trigger: element,
+                        start: "top 85%",
+                        toggleActions: "play none none reverse"
+                    },
+                    y: 40,
+                    opacity: 0,
+                    duration: 1.2,
+                    ease: "power3.out",
+                    delay: index * 0.1
+                });
+            });
+
+            gsap.utils.toArray("section").forEach(section => {
+                if(section.id === 'hero' || section.id === 'faq') return;
+                
+                const children = section.querySelectorAll(':scope > *:not(.glow-effect)');
+                children.forEach((child, index) => {
+                    gsap.from(child, {
+                        scrollTrigger: {
+                            trigger: section,
+                            start: "top 80%",
+                            toggleActions: "play none none reverse"
+                        },
+                        y: 30,
+                        opacity: 0,
+                        duration: 1,
+                        ease: "power2.out",
+                        delay: index * 0.1
+                    });
+                });
+            });
+
+            gsap.from(".merch-card", {
+                scrollTrigger: {
+                    trigger: "#shop",
+                    start: "top 70%",
+                    toggleActions: "play none none reverse"
+                },
+                scale: 0.9,
+                opacity: 0,
+                stagger: 0.15,
+                duration: 1.2,
+                ease: "back.out(1.2)"
+            });
+
+            gsap.from("#footerBigText", { 
+                scrollTrigger: { 
+                    trigger: "footer", 
+                    start: "top bottom", 
+                    end: "bottom bottom", 
+                    scrub: 1 
+                }, 
+                y: "20%", 
+                opacity: 0, 
+                scale: 0.95 
+            });
+        });
+    </script>
+</body>
+</html>
