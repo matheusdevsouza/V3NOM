@@ -26,7 +26,13 @@ export const Header = () => {
     <>
       <header className="fixed top-0 w-full z-50 py-4 px-6 md:py-2 md:px-10 flex justify-between items-center header-blur init-hidden">
         <div className="flex items-center gap-4 relative z-50">
-          <img src="/images/brand/logo-minimalist.png" alt="V3NOM" className="v3nom-logo-nav" />
+          <img 
+            src="/images/brand/logo-minimalist.png" 
+            alt="V3NOM" 
+            className="v3nom-logo-nav" 
+            draggable="false"
+            onContextMenu={(e) => e.preventDefault()}
+          />
         </div>
 
         <nav className="hidden md:flex gap-12 text-[10px] tracking-[0.5em] uppercase font-bold">

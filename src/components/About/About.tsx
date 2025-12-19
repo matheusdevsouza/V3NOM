@@ -20,7 +20,9 @@ export const About = () => {
                   id="aboutAlbumImg" 
                   src={albumImgSrc} 
                   alt="Vibe" 
-                  className="w-full h-full object-cover filter grayscale contrast-125 brightness-75 about-image" 
+                  className="w-full h-full object-cover filter grayscale contrast-125 brightness-75 about-image"
+                  draggable="false"
+                  onContextMenu={(e) => e.preventDefault()}
                 />
             </div>
             

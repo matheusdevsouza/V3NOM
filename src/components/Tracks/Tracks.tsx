@@ -44,7 +44,13 @@ export const Tracks = ({ onTrackClick }: TracksProps) => {
                   </div>
                   <div className="text-right flex flex-col items-end gap-2">
                       <span className="text-[8px] md:text-[10px] font-mono tracking-widest uppercase contrast-text">{track.streams} Streams</span>
-                      <img src="/images/icons/arrow-up-right.svg" className="w-4 h-4 md:w-6 md:h-6 opacity-0 group-hover:opacity-100 transition-all transform group-hover:translate-x-1 track-icon-img" alt="Abrir" />
+                      <img 
+                        src="/images/icons/arrow-up-right.svg" 
+                        className="w-4 h-4 md:w-6 md:h-6 opacity-0 group-hover:opacity-100 transition-all transform group-hover:translate-x-1 track-icon-img" 
+                        alt="Abrir"
+                        draggable="false"
+                        onContextMenu={(e) => e.preventDefault()}
+                      />
                   </div>
               </a>
             ))}

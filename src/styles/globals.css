@@ -101,3 +101,35 @@ body {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+img {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  pointer-events: auto;
+  -webkit-touch-callout: none;
+}
+
+img::selection {
+  background: transparent;
+}
+
+img::-moz-selection {
+  background: transparent;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.no-select {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}

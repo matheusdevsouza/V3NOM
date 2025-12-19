@@ -74,6 +74,8 @@ export const Hero = () => {
           id="heroLogo"
           data-light-src="/images/brand/3d-b.png"
           data-dark-src="/images/brand/3d-w.png"
+          draggable="false"
+          onContextMenu={(e) => e.preventDefault()}
         />
       </div>
     </section>

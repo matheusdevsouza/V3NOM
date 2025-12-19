@@ -22,7 +22,13 @@ export const Shop = () => {
         <div id="shopGrid" className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto relative z-10">
             {MERCH_ITEMS.map((item, index) => (
               <div key={item.id} className="merch-card group cursor-pointer init-hidden">
-                  <img src={item.image} alt={item.name} className="merch-image" />
+                  <img 
+                    src={item.image} 
+                    alt={item.name} 
+                    className="merch-image"
+                    draggable="false"
+                    onContextMenu={(e) => e.preventDefault()}
+                  />
                   <div className="merch-overlay absolute bottom-0 left-0 w-full p-6 text-white bg-gradient-to-t from-black/80 to-transparent">
                       <div className="w-full">
                           <div className="flex justify-between items-end border-b border-white/20 pb-4">
