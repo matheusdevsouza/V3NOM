@@ -31,11 +31,7 @@ export default defineConfig({
         passes: 3,
       },
       mangle: {
-        toplevel: false,
-        properties: {
-          regex: /^_/,
-        },
-        reserved: ['React', 'ReactDOM', 'ReactCurrentOwner', 'ReactCurrentDispatcher'],
+        toplevel: true,
       },
       format: {
         comments: false,
