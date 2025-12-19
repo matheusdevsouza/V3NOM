@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { Language, Translations } from '@/types';
+import { Language } from '@/types';
 import { translations } from '@/utils/translations';
 
 interface LanguageContextType {
@@ -16,7 +16,7 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
     if (saved && ['pt', 'en', 'es'].includes(saved)) {
       return saved as Language;
     }
-    const userLang = navigator.language || navigator.userLanguage;
+    const userLang = navigator.language || (navigator as any).userLanguage || 'pt';
     if (userLang.startsWith('en')) return 'en';
     if (userLang.startsWith('es')) return 'es';
     return 'pt';
