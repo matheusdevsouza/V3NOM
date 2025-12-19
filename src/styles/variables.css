@@ -1,0 +1,32 @@
+:root {
+  --bg: #ffffff;
+  --text: #000000;
+  --invert-logo: invert(1);
+  --sub-text: rgba(0, 0, 0, 0.6);
+  --track-icon-filter: invert(0);
+  --glow-color: rgba(0, 0, 0, 1);
+  --menu-bg: rgba(255, 255, 255, 0.98);
+  --loader-bg: #ffffff;
+  --loader-spinner: #000000;
+  --modal-bg: rgba(255, 255, 255, 0.98);
+  --modal-text: #000000;
+  --modal-btn-bg: #000000;
+  --modal-btn-text: #ffffff;
+}
+
+html.dark-mode,
+.dark-mode {
+  --bg: #000000;
+  --text: #ffffff;
+  --invert-logo: invert(0);
+  --sub-text: rgba(255, 255, 255, 0.5);
+  --track-icon-filter: invert(1) brightness(0.8);
+  --glow-color: rgba(255, 255, 255, 0.25);
+  --menu-bg: rgba(0, 0, 0, 0.98);
+  --loader-bg: #000000;
+  --loader-spinner: #ffffff;
+  --modal-bg: rgba(0, 0, 0, 0.95);
+  --modal-text: #ffffff;
+  --modal-btn-bg: #ffffff;
+  --modal-btn-text: #000000;
+}

@@ -1,0 +1,9 @@
+#video iframe {
+  border-radius: 0.75rem;
+}
+
+#video .group:hover iframe {
+  transform: scale(1.02);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+

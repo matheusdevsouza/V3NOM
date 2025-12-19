@@ -1,0 +1,15 @@
+.track-item {
+  border-bottom: 1px solid transparent;
+  transition: border-bottom 0.4s ease, padding-left 0.4s ease; 
+  opacity: 0; 
+}
+
+.track-item:hover {
+  border-bottom: 1px solid var(--text);
+  padding-left: 1.5rem;
+}
+
+.track-icon-img {
+  filter: var(--track-icon-filter);
+  transition: filter 0.8s ease;
+}

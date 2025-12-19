@@ -1,0 +1,125 @@
+#audioModal {
+  background-color: var(--modal-bg);
+  color: var(--modal-text);
+}
+
+.modal-container-border {
+  background-color: var(--modal-bg);
+  color: var(--modal-text);
+  border: 1px solid rgba(128, 128, 128, 0.2);
+}
+
+html:not(.dark-mode) .modal-container-border {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+html.dark-mode .modal-container-border {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#waveform {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  height: 4rem;
+}
+
+#waveform > div {
+  width: 0.25rem;
+  background: var(--modal-text);
+  opacity: 0.4;
+  border-radius: 9999px;
+  transition: all 300ms;
+}
+
+.progress-bar-bg {
+  width: 100%;
+  height: 0.25rem;
+  background-color: var(--modal-text);
+  opacity: 0.1;
+  border-radius: 9999px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background-color: var(--modal-text);
+  transition: width 100ms linear;
+}
+
+.play-btn-themed {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  border: 1px solid var(--modal-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  background: var(--modal-text);
+  color: var(--modal-bg);
+}
+
+.play-btn-themed:hover {
+  background: var(--modal-text);
+  color: var(--modal-bg);
+  transform: scale(1.1);
+}
+
+.modal-btn {
+  padding: 0.75rem 2rem;
+  border: 1px solid rgba(136, 136, 136, 0.4);
+  border-radius: 9999px;
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--modal-text);
+  text-decoration: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .modal-btn {
+    font-size: 0.75rem;
+  }
+}
+
+.modal-btn:hover {
+  background-color: var(--modal-text);
+  color: var(--modal-bg);
+  transform: translateY(-2px);
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 1rem;
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  color: var(--modal-text);
+}
+
+.modal-close-btn:hover {
+  opacity: 1;
+}
+
+#playerView {
+  transition: all 0.4s ease;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
