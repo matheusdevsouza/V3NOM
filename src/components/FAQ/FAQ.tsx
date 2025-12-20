@@ -28,37 +28,37 @@ export const FAQ = () => {
     <section id="faq" className="py-12 md:py-40 px-6 md:px-10 relative overflow-hidden">
         <Glow width="400px" height="400px" top="10%" right="10%" delay="0.8s" />
         <Glow width="300px" height="300px" bottom="20%" left="8%" delay="2.2s" />
-        
-        <div className="max-w-4xl mx-auto relative z-10">
-            <div className="text-center mb-12 md:mb-20">
-                <h2 className="text-[9px] tracking-[1.5em] uppercase font-bold mb-4 contrast-text">
-                  {t('faq.subtitle')}
-                </h2>
-                <h3 className="text-4xl md:text-7xl gothic-font">
-                  {t('faq.title')}
-                </h3>
-            </div>
-    
-            <div className="space-y-0">
-                {faqItems.map((item, index) => (
+      
+      <div className="max-w-4xl mx-auto relative z-10">
+        <div className="text-center mb-12 md:mb-20">
+          <h2 className="text-[9px] tracking-[1.5em] uppercase font-bold mb-4 contrast-text">
+            {t('faq.subtitle')}
+          </h2>
+          <h3 className="text-4xl md:text-7xl gothic-font">
+            {t('faq.title')}
+          </h3>
+        </div>
+
+        <div className="space-y-0">
+          {faqItems.map((item, index) => (
                   <div key={index} className={`faq-item ${activeIndex === index ? 'active' : ''}`}>
                       <div className="faq-question" onClick={() => toggleItem(index)}>
-                          <h4 className="text-lg md:text-3xl font-black uppercase tracking-tight">
-                            {t(item.q)}
-                          </h4>
-                          <svg className="faq-icon w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
-                          </svg>
-                      </div>
-                      <div className="faq-answer">
+                <h4 className="text-lg md:text-3xl font-black uppercase tracking-tight">
+                  {t(item.q)}
+                </h4>
+                <svg className="faq-icon w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </div>
+              <div className="faq-answer">
                           <p className="text-sm md:text-lg leading-relaxed contrast-text">
                             {t(item.a)}
                           </p>
-                      </div>
-                  </div>
-                ))}
+              </div>
             </div>
+          ))}
         </div>
+      </div>
     </section>
   );
 };
