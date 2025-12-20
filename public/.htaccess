@@ -1,41 +1,41 @@
-# Security Headers
+# Headers de segurança
 <IfModule mod_headers.c>
-    # Clickjacking
+    # Proteção contra clickjacking 
     Header always set X-Frame-Options "SAMEORIGIN"
     
-    # MIME type sniffing
+    # Impede que o navegador tente adivinhar o tipo de arquivo
     Header always set X-Content-Type-Options "nosniff"
     
-    # Proteção XSS
+    # Proteção contra ataques XSS
     Header always set X-XSS-Protection "1; mode=block"
     
-    # Referrer Policy
+    # Controla quais informações são enviadas quando o usuário navega para outros sites
     Header always set Referrer-Policy "strict-origin-when-cross-origin"
     
-    # Content Security Policy (ajustado para permitir Spotify IFrame API)
-    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://open.spotify.com https://*.spotify.com https://embed-cdn.spotifycdn.com https://*.spotifycdn.com https://www.youtube.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https: blob:; media-src 'self' https://open.spotify.com https://*.spotify.com https://embed-cdn.spotifycdn.com https://*.spotifycdn.com https://www.youtube.com; frame-src 'self' https://open.spotify.com https://*.spotify.com https://embed-cdn.spotifycdn.com https://*.spotifycdn.com https://www.youtube.com https://www.youtube-nocookie.com; connect-src 'self' https://open.spotify.com https://*.spotify.com https://embed-cdn.spotifycdn.com https://*.spotifycdn.com https://www.youtube.com https://www.googletagmanager.com wss://*.spotify.com; worker-src 'self' blob:; child-src 'self' https://open.spotify.com https://*.spotify.com https://embed-cdn.spotifycdn.com https://*.spotifycdn.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests;"
+    # Política de segurança de conteúdo
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.youtube.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https: blob:; media-src 'self' blob:; frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com; connect-src 'self' https://www.youtube.com https://www.googletagmanager.com; worker-src 'self' blob:; child-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests;"
     
-    # Permissões
+    # Desabilita acesso a recursos do navegador (localização, microfone, câmera)
     Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
     
 </IfModule>
 
-# Prevent directory browsing
+# Impede que pessoas vejam a lista de arquivos das pastas
 Options -Indexes
 
-# Prevent access to sensitive files
+# Bloqueia acesso a arquivos sensíveis (configurações, logs, etc)
 <FilesMatch "\.(env|log|ini|conf|json|md|yml|yaml|lock)$">
     Order allow,deny
     Deny from all
 </FilesMatch>
 
-# Prevent access to hidden files
+# Bloqueia acesso a arquivos ocultos
 <FilesMatch "^\.">
     Order allow,deny
     Deny from all
 </FilesMatch>
 
-# Prevent SQL injection attempts
+# Proteção contra tentativas de injeção SQL
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteCond %{QUERY_STRING} (\<|%3C).*script.*(\>|%3E) [NC,OR]
@@ -47,7 +47,7 @@ Options -Indexes
     RewriteRule .* - [F]
 </IfModule>
 
-# Prevent XSS attacks
+# Proteção contra ataques XSS
 <IfModule mod_rewrite.c>
     RewriteCond %{QUERY_STRING} (\<|%3C)([^s]*s)+cript.*(\>|%3E) [NC,OR]
     RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
@@ -55,7 +55,7 @@ Options -Indexes
     RewriteRule .* - [F]
 </IfModule>
 
-# Block bad bots and scrapers
+# Bloqueia bots maliciosos e raspadores de conteúdo
 <IfModule mod_rewrite.c>
     RewriteCond %{HTTP_USER_AGENT} ^$ [OR]
     RewriteCond %{HTTP_USER_AGENT} ^(-|\.|') [OR]
@@ -64,16 +64,16 @@ Options -Indexes
     RewriteRule .* - [F]
 </IfModule>
 
-# Disable server signature
+# Remove a assinatura do servidor (não mostra qual servidor está sendo usado)
 ServerSignature Off
 
-# Hide PHP version (if applicable)
+# Esconde informações sobre a versão do PHP e do servidor
 <IfModule mod_headers.c>
     Header unset X-Powered-By
     Header unset Server
 </IfModule>
 
-# Cache Control for static assets
+# Configuração de cache para arquivos estáticos (imagens, CSS, JavaScript)
 <IfModule mod_expires.c>
     ExpiresActive On
     ExpiresByType image/jpg "access plus 1 year"
@@ -87,7 +87,7 @@ ServerSignature Off
     ExpiresByType text/javascript "access plus 1 month"
 </IfModule>
 
-# Gzip compression
+# Comprime arquivos para reduzir o tamanho e acelerar o carregamento
 <IfModule mod_deflate.c>
     AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
 </IfModule>

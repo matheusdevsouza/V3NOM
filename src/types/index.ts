@@ -5,6 +5,7 @@ export interface Track {
   spotifyUrl: string;
   streams: string;
   lyrics?: string;
+  audioFile?: string;
 }
 
 export interface MerchItem {
@@ -30,5 +31,6 @@ export interface Translations {
     [key: string]: string;
   };
 }
+
 
 

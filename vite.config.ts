@@ -2,6 +2,8 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'path'
 
+const DISABLE_CONSOLE_IN_PRODUCTION = false;
+
 export default defineConfig({
   plugins: [react()],
   resolve: {
@@ -25,9 +27,11 @@ export default defineConfig({
     minify: 'terser',
     terserOptions: {
       compress: {
-        drop_console: true,
-        drop_debugger: true,
-        pure_funcs: ['console.log', 'console.info', 'console.debug', 'console.trace'],
+        drop_console: DISABLE_CONSOLE_IN_PRODUCTION,
+        drop_debugger: DISABLE_CONSOLE_IN_PRODUCTION,
+        pure_funcs: DISABLE_CONSOLE_IN_PRODUCTION 
+          ? ['console.log', 'console.info', 'console.debug', 'console.trace'] 
+          : [],
         passes: 3,
       },
       mangle: {
